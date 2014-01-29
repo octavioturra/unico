@@ -1,29 +1,34 @@
 <% layout( "_layout.ejs") %>
-    <h1 class="logo">
-        <i class="special">TheUnico</i>&trade;
-    </h1>
-    <div class="slider-big">
-        <figure>
-            <img src="http://lorempixum.com/1920/1080" alt="" height="100%">
-        </figure>
-    </div>
-    <div class="container" data-ng-controller="MainCtrl">
+    <header class="navbar-fixed-top navbar">
+        <h1 class="logo navbar-text">
+            <i class="special">TheUnico</i>&trade;
+        </h1>
+    </header>
+    
+    <div class="container-box" data-ng-controller="MainCtrl">
+        <div class="slider-big">
+            <figure data-ng-repeat="image in images" data-ng-class="{selected:image.selected}">
+                <img data-ng-src="{{image.normal}}" alt="" height="100%">
+            </figure>
+        </div>
         <div class="counter" title="300 estão vendo este produto">
             <span class="fa fa-user"></span>&nbsp;{{total}}
             <small>On-line aqui!</small>
         </div>
         <aside class="{{sideMenu}}">
+            <div class="control" data-ng-click="closeMenu()"></div>
             <h1>&nbsp;</h1>
-            <nav class="pure-menu pure-menu-open">
-                <ul>
-                    <li class="pure-menu-heading">Artistas</li>
-                    <li>
+            <br>
+            <nav>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item active">Artistas</li>
+                    <li class="list-group-item">
                         <a href="#/01/alaor">Alaor</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="#/02/adilson">Adailson</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="#/03/valdisney">Valdisnei</a>
                     </li>
                 </ul>
@@ -33,7 +38,27 @@
             <header>
                 <h1>&nbsp;</h1>
             </header>
-            <main class="square {{paymentStep}}">
+            <div data-ng-show="loadState===0">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="spinner"></div>
+            </div>
+            <div data-ng-show="loadState===3">
+                <br>
+                <br>
+                <br>
+                <div class="panel pendingProducts">
+                    <h1 class="panel-heading">Preparando produtos..</h1>
+                    <div class="panel-body">
+                        <p>Estamos preparando mais produtos para você.</p>
+                        <p>No momento, todos foram comprados, aguarde que, em breve, teremos mais noviaddes <strong>únicas</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <main class="square {{paymentStep}}" data-ng-show="loadState===1">
                 <div class="trail">
                     <article>
                         <header>
@@ -47,32 +72,16 @@
                             <span class="slider-left">
                                 <span class="fa fa-chevron-left"></span>
                             </span>
-                            <figure>
-                                <img src="http://lorempixum.com/120/120?1" alt="">
-                                <figcaption></figcaption>
+                            <figure data-ng-repeat="image in images" data-ng-class="{selected:image.selected}" data-ng-click="selectImage(image)">
+                                <img data-ng-src="{{image.thumb}}" alt="">
                             </figure>
-                            <figure class="selected">
-                                <img src="http://lorempixum.com/120/120?2" alt="">
-                                <figcaption></figcaption>
-                            </figure>
-                            <figure>
-                                <img src="http://lorempixum.com/120/120?3" alt="">
-                                <figcaption></figcaption>
-                            </figure>
-                            <figure>
-                                <img src="http://lorempixum.com/120/120?3" alt="">
-                                <figcaption></figcaption>
-                            </figure>
-                            <span class="slider-right">
-                                <span class="fa fa-chevron-right"></span>
-                            </span>
                         </nav>
                         <section>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat vero porro commodi architecto eligendi magnam doloremque voluptate fugit eos nulla. Enim unde adipisci quia molestiae soluta quo consequuntur odit dolor?</p>
                         </section>
                         <footer>
                             <form action="javascript:void(0);" data-ng-submit="openPaymentMode()">
-                                <button class="pure-button pure-button-primary pull-right" type="submit">
+                                <button class="btn btn-primary pull-right" type="submit">
                                     <span class="fa fa-shopping-cart"></span>
                                     Comprar
                                 </button>
@@ -80,46 +89,64 @@
                         </footer>
                     </article>
                     <article>
-                        <header>    
+                        <header>
                             <h1>Forma de pagamento</h1>
                         </header>
                         <section>
-                            <button class="pure-button button-success" data-ng-click="openPaymentComplete()">Pagar</button>
+                            <button class="btn btn-success" data-ng-click="openPaymentComplete()">Pagar</button>
                         </section>
                     </article>
                     <article>
                         <header>
                             <h1>Dados da compra</h1>
                         </header>
-                        <form action="" class="pure-form pure-form-stacked">
+                        <form action="" class="form-vertical">
                             <section>
-                                <input type="email" name="" id="" placeholder="Email">
-                                <input type="text" name="" id="" placeholder="Nome Completo">
-                                <input type="text" name="" id="" placeholder="CPF">
-                                <input type="text" name="" id="" placeholder="Cep">
+                                <div class="emailgroup">
+                                    <input type="email" name="" id="" placeholder="Email" class="form-control">
+                                    <div class="result">
+                                        <span class="fa fa-ellipsis-h" data-ng-hide="validating!==0"></span>
+                                        <div class="spinner mini" data-ng-hide="validating!==1">
+                                        </div>
+                                        <span class="fa fa-check" data-ng-hide="validating!==2"></span>
+                                        <span class="fa fa-thumbs-down" data-ng-hide="validating!==3"></span>
+                                        <span class="fa fa-chain-broken" data-ng-hide="validating!==4"></span>
+                                    </div>
+                                </div>
+                                <input type="text" name="" id="" placeholder="Nome Completo" class="form-control">
+                                <div class="passgroup">
+                                    <input type="password" name="" id="password" placeholder="Senha" class="form-control">
+                                    <input type="password" name="" id="confirm" placeholder="Confirmação" class="form-control">
+                                </div>
+
+                                <div class="identigroup">
+                                    <input type="text" name="" id="document" placeholder="CPF" class="form-control" value="___.___.___-__">
+                                    <input type="text" name="" id="cep" placeholder="Cep" class="form-control" value="_____-___">
+                                </div>
+
                                 <span class="streetgroupstreet">
-                                    <select name="" id="">
+                                    <select name="" id="" class="form-control">
                                         <option value="">R</option>
                                         <option value="">Av</option>
                                         <option value="">Al</option>
                                     </select>
-                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro">
-                                    <input type="text" name="numero" id="numero" placeholder="n°">
-                                    <input type="text" name="compl" id="compl" placeholder="Cmpl">
-                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro">
+                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro" class="form-control">
+                                    <input type="text" name="numero" id="numero" placeholder="n°" class="form-control">
+                                    <input type="text" name="compl" id="compl" placeholder="Cmpl" class="form-control">
+                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="form-control">
                                 </span>
                                 <span class="citygroup">
-                                    <select name="state" id="state" placeholder="UF">
+                                    <select name="state" id="state" placeholder="UF" class="form-control">
                                         <option value="">UF</option>
                                     </select>
-                                    <select name="city" id="city" placeholder="Cidade">
+                                    <select name="city" id="city" placeholder="Cidade" class="form-control">
                                         <option value="">Cidade</option>
                                     </select>
                                 </span>
 
                             </section>
                             <footer>
-                                <div class="pure-button button-success">Cadastrar e Comprar</div>
+                                <div class="btn btn-success pull-right">Cadastrar e Comprar</div>
                             </footer>
                         </form>
                     </article>
@@ -128,6 +155,7 @@
         </main>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var app = angular.module('unico',[])
@@ -141,29 +169,91 @@
         			$scope.$apply();
         		});
               
-              $scope.sideMenu = 'closed';
-              $scope.openMenu = function(){
-                $scope.sideMenu = 'opened';
-              };
-              $scope.closeMenu = function(){
+                $scope.loadState = 1;
+                
                 $scope.sideMenu = 'closed';
-              };
-              
-              var steps = ['initial', 'payment', 'complete']
-              $scope.paymentStep = 'initial'
-              
-              $scope.openPaymentMode = function(){
-                $scope.paymentStep = steps[1];
-              };
-              $scope.closePaymentMode = function(){
-                $scope.paymentStep = steps[0];
-              };
-              
-              $scope.openPaymentComplete = function(){
-                $scope.paymentStep = steps[2];
-              };
-              $scope.closePaymentMode = function(){
-                $scope.paymentStep = steps[0];
-              };
+                $scope.openMenu = function(){
+                    $scope.sideMenu = 'opened';
+                };
+                $scope.closeMenu = function(){
+                    $scope.sideMenu = 'closed';
+                };
+                
+                var steps = ['initial', 'payment', 'complete'];
+                $scope.paymentStep = 'initial';
+                
+                $scope.openPaymentMode = function(){
+                    $scope.paymentStep = steps[1];
+                };
+                $scope.closePaymentMode = function(){
+                    $scope.paymentStep = steps[0];
+                };
+                
+                $scope.openPaymentComplete = function(){
+                    $scope.paymentStep = steps[2];
+                };
+                $scope.closePaymentMode = function(){
+                    $scope.paymentStep = steps[0];
+                };
+                
+                $scope.images = [
+                    {
+                        id: 41234,
+                        normal: 'http://lorempixum.com/1920/1080',
+                        thumb: 'http://lorempixum.com/120/120',
+                        selected : true
+                    },
+                    {
+                        id: 543245,
+                        normal: 'http://lorempixum.com/1920/1080?1',
+                        thumb: 'http://lorempixum.com/120/120?1',
+                        selected : false
+                    },
+                    {
+                        id: 1341,
+                        normal: 'http://lorempixum.com/1920/1080?2',
+                        thumb: 'http://lorempixum.com/120/120?2',
+                        selected : false
+                    },
+                    {
+                        id: 54145,
+                        normal: 'http://lorempixum.com/1920/1080?3',
+                        thumb: 'http://lorempixum.com/120/120?3',
+                        selected : false
+                    }
+                ];
+                    
+                $scope.selected = 0;
+                $scope.selectImage = function(d){
+                    _($scope.images).each(function(i){
+                        if(i.selected) 
+                            i.selected = false
+                        if(i.id === d.id)
+                            i.selected = true
+                    });
+                }
+                
+                $scope.validating = 1;
+                $scope.validateEmail = function(){
+                    if($scope.data.email.length!=0){
+                        $http.post('/validate/email', {email: $scope.data.email})
+                        .success(function(d){
+                            if(!d.success){
+                                $scope.validating=3;
+                                $scope.validateEmailStatus = d.message;
+                            }else{
+                                $scope.validating=2;
+                                $scope.validateEmailStatus = 'Válido';
+                            }
+                        })
+                        .error(function(d){
+                            $scope.validating=4;
+                            $scope.validateEmailStatus = d.error.message;
+                        });
+                    }else{
+                        $scope.validating=0;
+                        $scope.validateEmailStatus = 'Aguardando preenchimento';
+                    }
+                }
         	});
     </script>
