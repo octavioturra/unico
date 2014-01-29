@@ -98,6 +98,10 @@ a {
     overflow: hidden;
     transition: width 300ms linear, height 300ms linear;
     background: rgba(249, 249, 249, 0.95);
+    &.min{
+        height: @height/5;
+        width: @width;
+    }
 }
 .trail>article:after {
     content: "";

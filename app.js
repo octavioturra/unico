@@ -40,17 +40,33 @@ if ('development' == app.get('env')) {
 var products = [{
 	sku: 341223,
 	name: 'Caixa Artística Roxa',
-	artist: 'Alaor',
+    model: 'Teste',
+	author: 'Alaor',
 	description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat vero porro commodi architecto eligendi magnam doloremque voluptate fugit eos nulla. Enim unde adipisci quia molestiae soluta quo consequuntur odit dolor?',
 	price:{
 		brute: 300,
 		tax: 100,
-		fare: 100
+		fare: 100,
+        rev: 1.7
 	},
-	pics:{
-		thumb:['https://lorempixum.com/90/90?1','https://lorempixum.com/90/90?2','https://lorempixum.com/90/90?3','https://lorempixum.com/90/90?4'],
-		real:['https://lorempixum.com/1920/1080?1','https://lorempixum.com/1920/1080?2','https://lorempixum.com/1920/1080?3','https://lorempixum.com/1920/1080?4']
-	}
+	images:[
+        {
+            thumb:'http://lorempixum.com/90/90?1',
+            normal:'http://lorempixum.com/1920/1080?1'
+        },
+        {
+            thumb:'http://lorempixum.com/90/90?2',
+            normal:'https//lorempixum.com/1920/1080?2'
+        },
+        {
+            thumb:'http://lorempixum.com/90/90?3',
+            normal:'http://lorempixum.com/1920/1080?3'
+        },
+        {
+            thumb:'http://lorempixum.com/90/90?4',
+            normal:'http://lorempixum.com/1920/1080?4'
+        }
+    ]
 }];
 
 app.get('/', routes.index);
@@ -58,7 +74,13 @@ app.get('/', routes.index);
 var total = 0;
 io.sockets.on('connection', function(socket){
 	total+=1;
-	socket.emit('news', {total:total, product:_(products).first()});
+    var product = _(products).first();
+    
+    var price = (product.price.brute + product.price.tax + product.price.fare) * product.price.rev
+    console.log(price);
+    product.price = price;
+    
+	socket.emit('news', {total:total, product:product});
 	socket.broadcast.emit('news', {total:total});
 	socket.on('disconnect', function () { 
 		total-=1;

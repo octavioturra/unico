@@ -86,6 +86,10 @@ a:active {
   transition: width 300ms linear, height 300ms linear;
   background: rgba(249, 249, 249, 0.95);
 }
+.square.min {
+  height: 84px;
+  width: 340px;
+}
 .trail > article:after {
   content: "";
   position: absolute;

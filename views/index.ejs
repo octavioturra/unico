@@ -7,7 +7,7 @@
     
     <div class="container-box" data-ng-controller="MainCtrl">
         <div class="slider-big">
-            <figure data-ng-repeat="image in images" data-ng-class="{selected:image.selected}">
+            <figure data-ng-repeat="image in product.images" data-ng-class="{selected:image.selected}">
                 <img data-ng-src="{{image.normal}}" alt="" height="100%">
             </figure>
         </div>
@@ -62,25 +62,36 @@
                 <div class="trail">
                     <article>
                         <header>
-                            <h1>Lorem ipsum dolor sit amet</h1>
-                            <h2>consectetur adipisicing elit</h2>
+                            <h1>
+                                {{product.name}}
+                                <a href="javascript:" class="pull-right" title="minimizar"
+                                   data-ng-click="minimize()">
+                                    <span class="fa fa-minus" data-ng-show="paymentStep!=='min'"></span>
+                                    <span class="fa fa-plus" data-ng-show="paymentStep==='min'"></span>
+                                </a>
+                            </h1>
+                            <h2>{{product.model}}</h2>
                             <small class="pull-right">por
-                                <a data-ng-click="openMenu()" title="artista" href="javascript:void(0);">Valdisney</a>
+                                <a data-ng-click="openMenu()" title="artista" href="javascript:void(0);">{{product.author}}</a>
                             </small>
                         </header>
                         <nav class="slider-control">
-                            <span class="slider-left">
+                            <span class="slider-left" data-ng-click="beforeImage()">
                                 <span class="fa fa-chevron-left"></span>
                             </span>
-                            <figure data-ng-repeat="image in images" data-ng-class="{selected:image.selected}" data-ng-click="selectImage(image)">
+                            <figure data-ng-repeat="image in product.images" data-ng-class="{selected:image.selected}" data-ng-click="selectImage(image)">
                                 <img data-ng-src="{{image.thumb}}" alt="">
                             </figure>
+                            <span class="slider-left" data-ng-click="nextImage()">
+                                <span class="fa fa-chevron-right"></span>
+                            </span>
                         </nav>
                         <section>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat vero porro commodi architecto eligendi magnam doloremque voluptate fugit eos nulla. Enim unde adipisci quia molestiae soluta quo consequuntur odit dolor?</p>
+                            <p>{{product.description}}</p>
                         </section>
                         <footer>
                             <form action="javascript:void(0);" data-ng-submit="openPaymentMode()">
+                                <strong class="pull-left">{{product.price|currency:"R$"}}</strong>
                                 <button class="btn btn-primary pull-right" type="submit">
                                     <span class="fa fa-shopping-cart"></span>
                                     Comprar
@@ -164,13 +175,39 @@
         		return socket;
         	})
         	.controller('MainCtrl', function($scope, socket){
+                $scope.product = {};
+                $scope.loadState = 0;
+                
+                function processaProduto(p){
+                    var fst = false;
+                    p.images = _(p.images).map(function(i){
+                        return {
+                            id : _.uniqueId('i'),
+                            thumb : i.thumb,
+                            normal : i.normal,
+                            selected : (function(){
+                                if(!fst){
+                                    fst = true;
+                                    return true;
+                                }
+                                return false;
+                            })()
+                        }  
+                    });
+                    $scope.product = p;
+                }
+                
         		socket.on('news', function (data) {
         			$scope.total = data.total;
+                    if(data.product){
+                        processaProduto(data.product);    
+                        $scope.loadState = 1;
+                    }else{
+                        $scope.loadState = 3;
+                    }
         			$scope.$apply();
         		});
-              
-                $scope.loadState = 1;
-                
+                              
                 $scope.sideMenu = 'closed';
                 $scope.openMenu = function(){
                     $scope.sideMenu = 'opened';
@@ -196,41 +233,43 @@
                     $scope.paymentStep = steps[0];
                 };
                 
-                $scope.images = [
-                    {
-                        id: 41234,
-                        normal: 'http://lorempixum.com/1920/1080',
-                        thumb: 'http://lorempixum.com/120/120',
-                        selected : true
-                    },
-                    {
-                        id: 543245,
-                        normal: 'http://lorempixum.com/1920/1080?1',
-                        thumb: 'http://lorempixum.com/120/120?1',
-                        selected : false
-                    },
-                    {
-                        id: 1341,
-                        normal: 'http://lorempixum.com/1920/1080?2',
-                        thumb: 'http://lorempixum.com/120/120?2',
-                        selected : false
-                    },
-                    {
-                        id: 54145,
-                        normal: 'http://lorempixum.com/1920/1080?3',
-                        thumb: 'http://lorempixum.com/120/120?3',
-                        selected : false
+                var beforeMinimize = '';
+                $scope.minimize = function(){
+                    if($scope.paymentStep!=='min'){
+                        beforeMinimize = $scope.paymentStep;
+                        $scope.paymentStep = 'min';
+                    }else{
+                        $scope.paymentStep = beforeMinimize;
                     }
-                ];
+                };            
+                
                     
-                $scope.selected = 0;
+                var selectedPos = 0;
                 $scope.selectImage = function(d){
-                    _($scope.images).each(function(i){
+                    selectedPos = 0;
+                    _($scope.product.images).each(function(i, n){
                         if(i.selected) 
-                            i.selected = false
-                        if(i.id === d.id)
-                            i.selected = true
+                            i.selected = false;
+                        if(i.id === d.id){
+                            i.selected = true;
+                            selectedPos = n;
+                        }
+                        console.log(n)
                     });
+                }
+                $scope.nextImage = function(){
+                    _($scope.product.images).each(function(i, n){
+                        i.selected = false;
+                    });
+                    selectedPos = (selectedPos+1);
+                    $scope.product.images[selectedPos%4].selected = true
+                }
+                $scope.beforeImage = function(){
+                    _($scope.product.images).each(function(i, n){
+                        i.selected = false;
+                    });
+                    selectedPos = selectedPos+3;
+                    $scope.product.images[(selectedPos)%4].selected = true
                 }
                 
                 $scope.validating = 1;
