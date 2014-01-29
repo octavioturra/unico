@@ -1,144 +1,169 @@
-<% layout("_layout.ejs") %>
-<h1 class="logo">
-	<i class="special">TheUnico</i>&trade;
-</h1>
-<div class="slider-big">
-	<figure>
-		<img src="http://lorempixum.com/1920/1080" alt="" height="100%">
-	</figure>
-</div>
-<div class="container" data-ng-controller="MainCtrl">
-	<div class="counter" title="300 estão vendo este produto">
-		<span class="fa fa-user"></span>&nbsp;{{total}}
-		<small>On-line aqui!</small>
-	</div>
-	<aside class="closed">
-		<h1>&nbsp;</h1>
-		<nav class="pure-menu pure-menu-open">
-			<ul>
-				<li class="pure-menu-heading">Artistas</li>
-				<li>
-					<a href="#/01/alaor">Alaor</a>
-				</li>
-				<li>
-					<a href="#/02/adilson">Adailson</a>
-				</li>
-				<li>
-					<a href="#/03/valdisney">Valdisnei</a>
-				</li>
-			</ul>
-		</nav>
-	</aside>
-	<main>
-		<header>
-			<h1>&nbsp;</h1>
-		</header>
-		<main class="square closed">
-			<div class="trail">
-				<article>
-					<header>
-						<h1>Lorem ipsum dolor sit amet</h1>
-						<h2>consectetur adipisicing elit</h2>
-						<small class="pull-right">por
-							<a href="javascript:$('aside').removeClass('closed').addClass('opened')" title="artista">Valdisney</a>
-						</small>
-					</header>
-					<nav class="slider-control">
-						<span class="slider-left">
-							<span class="fa fa-chevron-left"></span>
-						</span>
-						<figure>
-							<img src="http://lorempixum.com/120/120?1" alt="">
-							<figcaption></figcaption>
-						</figure>
-						<figure class="selected">
-							<img src="http://lorempixum.com/120/120?2" alt="">
-							<figcaption></figcaption>
-						</figure>
-						<figure>
-							<img src="http://lorempixum.com/120/120?3" alt="">
-							<figcaption></figcaption>
-						</figure>
-						<figure>
-							<img src="http://lorempixum.com/120/120?3" alt="">
-							<figcaption></figcaption>
-						</figure>
-						<span class="slider-right">
-							<span class="fa fa-chevron-right"></span>
-						</span>
-					</nav>
-					<section>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat vero porro commodi architecto eligendi magnam doloremque voluptate fugit eos nulla. Enim unde adipisci quia molestiae soluta quo consequuntur odit dolor?</p>
-					</section>
-					<footer>
-						<form action="">
-							<button class="pure-button pure-button-primary pull-right" type="submit">
-								<span class="fa fa-shopping-cart"></span>
-								Comprar
-							</button>
-						</form>
-					</footer>
-				</article>
-				<article>
-					<header>
-						<h1>Forma de pagamento</h1>
-					</header>
-					<section>
-						<button class="pure-button button-success" onclick="$('.square').removeClass('semiopen').addClass('open')">Pagar</button>
-					</section>
-				</article>
-				<article>
-					<header>
-						<h1>Dados da compra</h1>
-					</header>
-					<form action="" class="pure-form pure-form-stacked">
-						<section>
-							<input type="email" name="" id="" placeholder="Email">
-							<input type="text" name="" id="" placeholder="Nome Completo">
-							<input type="text" name="" id="" placeholder="CPF">
-							<input type="text" name="" id="" placeholder="Cep">
-							<span class="streetgroupstreet">
-								<select name="" id="">
-									<option value="">R</option>
-									<option value="">Av</option>
-									<option value="">Al</option>
-								</select>
-								<input type="text" name="logradouro" id="logradouro" placeholder="Logradouro">
-								<input type="text" name="numero" id="numero" placeholder="n°">
-								<input type="text" name="compl" id="compl" placeholder="Cmpl">
-								<input type="text" name="bairro" id="bairro" placeholder="Bairro">
-							</span>
-							<span class="citygroup">
-								<select name="state" id="state" placeholder="UF">
-									<option value="">UF</option>
-								</select>
-								<select name="city" id="city" placeholder="Cidade">
-									<option value="">Cidade</option>
-								</select>
-							</span>
+<% layout( "_layout.ejs") %>
+    <h1 class="logo">
+        <i class="special">TheUnico</i>&trade;
+    </h1>
+    <div class="slider-big">
+        <figure>
+            <img src="http://lorempixum.com/1920/1080" alt="" height="100%">
+        </figure>
+    </div>
+    <div class="container" data-ng-controller="MainCtrl">
+        <div class="counter" title="300 estão vendo este produto">
+            <span class="fa fa-user"></span>&nbsp;{{total}}
+            <small>On-line aqui!</small>
+        </div>
+        <aside class="{{sideMenu}}">
+            <h1>&nbsp;</h1>
+            <nav class="pure-menu pure-menu-open">
+                <ul>
+                    <li class="pure-menu-heading">Artistas</li>
+                    <li>
+                        <a href="#/01/alaor">Alaor</a>
+                    </li>
+                    <li>
+                        <a href="#/02/adilson">Adailson</a>
+                    </li>
+                    <li>
+                        <a href="#/03/valdisney">Valdisnei</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <header>
+                <h1>&nbsp;</h1>
+            </header>
+            <main class="square {{paymentStep}}">
+                <div class="trail">
+                    <article>
+                        <header>
+                            <h1>Lorem ipsum dolor sit amet</h1>
+                            <h2>consectetur adipisicing elit</h2>
+                            <small class="pull-right">por
+                                <a data-ng-click="openMenu()" title="artista" href="javascript:void(0);">Valdisney</a>
+                            </small>
+                        </header>
+                        <nav class="slider-control">
+                            <span class="slider-left">
+                                <span class="fa fa-chevron-left"></span>
+                            </span>
+                            <figure>
+                                <img src="http://lorempixum.com/120/120?1" alt="">
+                                <figcaption></figcaption>
+                            </figure>
+                            <figure class="selected">
+                                <img src="http://lorempixum.com/120/120?2" alt="">
+                                <figcaption></figcaption>
+                            </figure>
+                            <figure>
+                                <img src="http://lorempixum.com/120/120?3" alt="">
+                                <figcaption></figcaption>
+                            </figure>
+                            <figure>
+                                <img src="http://lorempixum.com/120/120?3" alt="">
+                                <figcaption></figcaption>
+                            </figure>
+                            <span class="slider-right">
+                                <span class="fa fa-chevron-right"></span>
+                            </span>
+                        </nav>
+                        <section>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat vero porro commodi architecto eligendi magnam doloremque voluptate fugit eos nulla. Enim unde adipisci quia molestiae soluta quo consequuntur odit dolor?</p>
+                        </section>
+                        <footer>
+                            <form action="javascript:void(0);" data-ng-submit="openPaymentMode()">
+                                <button class="pure-button pure-button-primary pull-right" type="submit">
+                                    <span class="fa fa-shopping-cart"></span>
+                                    Comprar
+                                </button>
+                            </form>
+                        </footer>
+                    </article>
+                    <article>
+                        <header>    
+                            <h1>Forma de pagamento</h1>
+                        </header>
+                        <section>
+                            <button class="pure-button button-success" data-ng-click="openPaymentComplete()">Pagar</button>
+                        </section>
+                    </article>
+                    <article>
+                        <header>
+                            <h1>Dados da compra</h1>
+                        </header>
+                        <form action="" class="pure-form pure-form-stacked">
+                            <section>
+                                <input type="email" name="" id="" placeholder="Email">
+                                <input type="text" name="" id="" placeholder="Nome Completo">
+                                <input type="text" name="" id="" placeholder="CPF">
+                                <input type="text" name="" id="" placeholder="Cep">
+                                <span class="streetgroupstreet">
+                                    <select name="" id="">
+                                        <option value="">R</option>
+                                        <option value="">Av</option>
+                                        <option value="">Al</option>
+                                    </select>
+                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro">
+                                    <input type="text" name="numero" id="numero" placeholder="n°">
+                                    <input type="text" name="compl" id="compl" placeholder="Cmpl">
+                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro">
+                                </span>
+                                <span class="citygroup">
+                                    <select name="state" id="state" placeholder="UF">
+                                        <option value="">UF</option>
+                                    </select>
+                                    <select name="city" id="city" placeholder="Cidade">
+                                        <option value="">Cidade</option>
+                                    </select>
+                                </span>
 
-						</section>
-						<footer>
-							<div class="pure-button button-success">Cadastrar e Comprar</div>
-						</footer>
-					</form>
-				</article>
-			</div>
-		</main>
-	</main>
-</div>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-	var app = angular.module('unico',[])
-	.factory('socket', function(){
-		var socket = io.connect('http://localhost');
-		return socket;
-	})
-	.controller('MainCtrl', function($scope, socket){
-		socket.on('news', function (data) {
-			$scope.total = data.total;
-			$scope.$apply();
-		});
-	});
-</script>
+                            </section>
+                            <footer>
+                                <div class="pure-button button-success">Cadastrar e Comprar</div>
+                            </footer>
+                        </form>
+                    </article>
+                </div>
+            </main>
+        </main>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var app = angular.module('unico',[])
+        	.factory('socket', function(){
+        		var socket = io.connect('http://localhost');
+        		return socket;
+        	})
+        	.controller('MainCtrl', function($scope, socket){
+        		socket.on('news', function (data) {
+        			$scope.total = data.total;
+        			$scope.$apply();
+        		});
+              
+              $scope.sideMenu = 'closed';
+              $scope.openMenu = function(){
+                $scope.sideMenu = 'opened';
+              };
+              $scope.closeMenu = function(){
+                $scope.sideMenu = 'closed';
+              };
+              
+              var steps = ['initial', 'payment', 'complete']
+              $scope.paymentStep = 'initial'
+              
+              $scope.openPaymentMode = function(){
+                $scope.paymentStep = steps[1];
+              };
+              $scope.closePaymentMode = function(){
+                $scope.paymentStep = steps[0];
+              };
+              
+              $scope.openPaymentComplete = function(){
+                $scope.paymentStep = steps[2];
+              };
+              $scope.closePaymentMode = function(){
+                $scope.paymentStep = steps[0];
+              };
+        	});
+    </script>

@@ -149,13 +149,13 @@ a:active {
   .square {
     height: 420px;
   }
-  .square.closed {
+  .square.initial {
     width: 340px;
   }
-  .square.semiopen {
+  .square.payment {
     width: 680px;
   }
-  .square.open {
+  .square.complete {
     width: 1020px;
   }
   .trail > article {
@@ -201,13 +201,13 @@ a:active {
     width: 340px;
     margin-top: 0;
   }
-  .square.closed {
+  .square.initial {
     height: 420px;
   }
-  .square.semiopen {
+  .square.payment {
     height: 840px;
   }
-  .square.open {
+  .square.complete {
     height: 1260px;
   }
   .trail > article {

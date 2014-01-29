@@ -1,28 +1,27 @@
-
-    @height: 420px;
-    @width: 340px;
-    @square-border: #333;
+@height: 420px;
+@width: 340px;
+@square-border: #333;
     
 body{
  background: #f9f9f9; 
 }
     
-    .logo{
-     z-index:100; 
-      position:relative;
-      padding:.2em;      
-      text-shadow: 0 0 10px white,
-        -1px -1px 0 rgba(255,255,255,0.3),
-        1px -1px 0 rgba(255,255,255,0.3),
-        -1px 1px 0 rgba(255,255,255,0.3),
-        1px 1px 0 rgba(255,255,255,0.3); 
-        font-weight:lighter;
-        font-size:12px;
-      .special{
-        font: 40px tangerine;
-      }
-    }
-    .counter{
+.logo{
+ z-index:100; 
+  position:relative;
+  padding:.2em;      
+  text-shadow: 0 0 10px white,
+    -1px -1px 0 rgba(255,255,255,0.3),
+    1px -1px 0 rgba(255,255,255,0.3),
+    -1px 1px 0 rgba(255,255,255,0.3),
+    1px 1px 0 rgba(255,255,255,0.3); 
+    font-weight:lighter;
+    font-size:12px;
+  .special{
+    font: 40px tangerine;
+  }
+}
+.counter{
   text-shadow: 0 0 10px white,
         -1px -1px 0 rgba(255,255,255,0.3),
         1px -1px 0 rgba(255,255,255,0.3),
@@ -171,13 +170,13 @@ body{
       .square{
         height: @height;
       }
-      .square.closed{
+      .square.initial{
         width: @width;
       }
-      .square.semiopen{
+      .square.payment{
         width:@width*2;
       }
-      .square.open{
+      .square.complete{
         width:@width*3;
       }
       .trail>article{
@@ -223,13 +222,13 @@ body{
         width:@width;
         margin-top: 0;
       }
-      .square.closed{
+      .square.initial{
         height:@height;
       }
-      .square.semiopen{
+      .square.payment{
         height:@height*2;
       }
-      .square.open{
+      .square.complete{
         height:@height*3;
       }
       .trail>article{    
