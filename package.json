@@ -11,6 +11,7 @@
     "ejs-locals": "*",
     "less-middleware": "*",
     "socket.io": "~0.9.16",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "cep": "0.0.3"
   }
 }

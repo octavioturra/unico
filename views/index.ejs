@@ -131,8 +131,9 @@
                                 </div>
 
                                 <div class="identigroup">
-                                    <input type="text" name="" id="document" placeholder="CPF" class="form-control" value="___.___.___-__">
-                                    <input type="text" name="" id="cep" placeholder="Cep" class="form-control" value="_____-___">
+                                    <input type="text" name="" id="document" placeholder="CPF" class="form-control" value="">
+                                    <input type="text" name="" id="cep" placeholder="Cep" class="form-control" value="" 
+                                           data-ng-model="endereco.cep" pattern="\d{5}-\d{3}" data-ng-change="validaCep()">
                                 </div>
 
                                 <span class="streetgroupstreet">
@@ -141,10 +142,10 @@
                                         <option value="">Av</option>
                                         <option value="">Al</option>
                                     </select>
-                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro" class="form-control">
+                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro" class="form-control" data-ng-model="endereco.logradouro">
                                     <input type="text" name="numero" id="numero" placeholder="n°" class="form-control">
                                     <input type="text" name="compl" id="compl" placeholder="Cmpl" class="form-control">
-                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="form-control">
+                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="form-control" data-ng-model="endereco.bairro">
                                 </span>
                                 <span class="citygroup">
                                     <select name="state" id="state" placeholder="UF" class="form-control">
@@ -174,7 +175,7 @@
         		var socket = io.connect('http://localhost');
         		return socket;
         	})
-        	.controller('MainCtrl', function($scope, socket){
+        	.controller('MainCtrl', function($scope, $http, socket){
                 $scope.product = {};
                 $scope.loadState = 0;
                 
@@ -293,6 +294,23 @@
                         $scope.validating=0;
                         $scope.validateEmailStatus = 'Aguardando preenchimento';
                     }
+                }
+                
+                $scope.endereco = {
+                    cep : ''
+                };
+                $scope.validaCep = function(){
+                    $http.post('/cep', {cep: $scope.endereco.cep})
+                    .success(function(d){
+                        //{“bairro”: “Santana”, “logradouro”: “Rua Volunt\u00e1rios da P\u00e1tria”, “cep”: “02011200″, “uf”: “SP”, “localidade”: “S\u00e3o Paulo”}
+                        $scope.endereco.logradouro = d.logradouro;
+                        $scope.endereco.bairro = d.bairro;                        
+                        $scope.endereco.uf = d.uf;
+                        $scope.endereco.cidade = d.localidade;                        
+                    })
+                    .error(function(d){
+                        
+                    });
                 }
         	});
     </script>
