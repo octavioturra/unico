@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="unico">
 
 <head>
     <script src="http://code.jquery.com/jquery-git2.js"></script>
     <meta charset=utf-8 />
     <title>The Unico &trade; | Produtos exclusivos</title>
     <link href='http://fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css'>
-    <!--link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css" /-->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
-	
 	<link rel="stylesheet" href="stylesheets/style.css">
 </head>
 
-<body data-ng-app="unico">
+<body data-ng-controller="MainCtrl">
+    <%partial("header")-%>
+    
     <%- body%>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script src="scripts/services/underscore.js"></script>
+    
+    <script src="scripts/app.js"></script>
+    
+    <script src="scripts/services/socket.js"></script>
+    
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/menu.js"></script>
+    <script src="scripts/controllers/client.js"></script>
+    <script src="scripts/controllers/product.js"></script>
+    <script src="scripts/controllers/payment.js"></script>
+    <script src="scripts/controllers/order.js"></script>
+    <script src="scripts/controllers/gallery.js"></script>
+    <script src="scripts/controllers/slider.js"></script>
 </body>
 
 </html>

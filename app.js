@@ -72,10 +72,10 @@ var products = [{
 }];
 
 var result = {
-    ok = function(data){
+    ok : function(data){
         return {success:true, data:data};
     },
-    error = function(message){
+    error : function(message){
         return {success:false, message:message};
     }
 };

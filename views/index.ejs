@@ -1,38 +1,16 @@
 <% layout( "_layout.ejs") %>
-    <header class="navbar-fixed-top navbar">
-        <h1 class="logo navbar-text">
-            <i class="special">TheUnico</i>&trade;
-        </h1>
-    </header>
-    
-    <div class="container-box" data-ng-controller="MainCtrl">
+    <div class="container-box">
         <div class="slider-big">
             <figure data-ng-repeat="image in product.images" data-ng-class="{selected:image.selected}">
-                <img data-ng-src="{{image.normal}}" alt="" height="100%">
+                <img data-ng-src="{{image.normal}}" alt="" width="100%">
             </figure>
         </div>
         <div class="counter" title="300 estão vendo este produto">
             <span class="fa fa-user"></span>&nbsp;{{total}}
             <small>On-line aqui!</small>
         </div>
-        <aside class="{{sideMenu}}">
-            <div class="control" data-ng-click="closeMenu()"></div>
-            <h1>&nbsp;</h1>
-            <br>
-            <nav>
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item active">Artistas</li>
-                    <li class="list-group-item">
-                        <a href="#/01/alaor">Alaor</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#/02/adilson">Adailson</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#/03/valdisney">Valdisnei</a>
-                    </li>
-                </ul>
-            </nav>
+        <aside class="{{sideMenu}}" data-ng-controller="MenuCtrl">
+            
         </aside>
         <main>
             <header>
@@ -54,263 +32,29 @@
                     <h1 class="panel-heading">Preparando produtos..</h1>
                     <div class="panel-body">
                         <p>Estamos preparando mais produtos para você.</p>
-                        <p>No momento, todos foram comprados, aguarde que, em breve, teremos mais noviaddes <strong>únicas</strong>.</p>
+                        <p>No momento, todos foram comprados, aguarde que, em breve, teremos mais noviaddes
+                            <strong>únicas</strong>.</p>
                     </div>
                 </div>
             </div>
             <main class="square {{paymentStep}}" data-ng-show="loadState===1">
                 <div class="trail">
-                    <article>
-                        <header>
-                            <h1>
-                                {{product.name}}
-                                <a href="javascript:" class="pull-right" title="minimizar"
-                                   data-ng-click="minimize()">
-                                    <span class="fa fa-minus" data-ng-show="paymentStep!=='min'"></span>
-                                    <span class="fa fa-plus" data-ng-show="paymentStep==='min'"></span>
-                                </a>
-                            </h1>
-                            <h2>{{product.model}}</h2>
-                            <small class="pull-right">por
-                                <a data-ng-click="openMenu()" title="artista" href="javascript:void(0);">{{product.author}}</a>
-                            </small>
-                        </header>
-                        <nav class="slider-control">
-                            <span class="slider-left" data-ng-click="beforeImage()">
-                                <span class="fa fa-chevron-left"></span>
-                            </span>
-                            <figure data-ng-repeat="image in product.images" data-ng-class="{selected:image.selected}" data-ng-click="selectImage(image)">
-                                <img data-ng-src="{{image.thumb}}" alt="">
-                            </figure>
-                            <span class="slider-left" data-ng-click="nextImage()">
-                                <span class="fa fa-chevron-right"></span>
-                            </span>
-                        </nav>
-                        <section>
-                            <p>{{product.description}}</p>
-                        </section>
-                        <footer>
-                            <form action="javascript:void(0);" data-ng-submit="openPaymentMode()">
-                                <strong class="pull-left">{{product.price|currency:"R$"}}</strong>
-                                <button class="btn btn-primary pull-right" type="submit">
-                                    <span class="fa fa-shopping-cart"></span>
-                                    Comprar
-                                </button>
-                            </form>
-                        </footer>
+                    <article data-ng-controller="ProductCtrl">
+                        
                     </article>
-                    <article>
+                    <article data-ng-controller="PaymentCtrl">
                         <header>
                             <h1>Forma de pagamento</h1>
                         </header>
-                        <section>
-                            <button class="btn btn-success" data-ng-click="openPaymentComplete()">Pagar</button>
-                        </section>
+                        <%- partial( "payment")-%>
                     </article>
-                    <article>
+                    <article data-ng-controller="ClientCtrl">
                         <header>
                             <h1>Dados da compra</h1>
                         </header>
-                        <form action="" class="form-vertical">
-                            <section>
-                                <div class="emailgroup">
-                                    <input type="email" name="" id="" placeholder="Email" class="form-control">
-                                    <div class="result">
-                                        <span class="fa fa-ellipsis-h" data-ng-hide="validating!==0"></span>
-                                        <div class="spinner mini" data-ng-hide="validating!==1">
-                                        </div>
-                                        <span class="fa fa-check" data-ng-hide="validating!==2"></span>
-                                        <span class="fa fa-thumbs-down" data-ng-hide="validating!==3"></span>
-                                        <span class="fa fa-chain-broken" data-ng-hide="validating!==4"></span>
-                                    </div>
-                                </div>
-                                <input type="text" name="" id="" placeholder="Nome Completo" class="form-control">
-                                <div class="passgroup">
-                                    <input type="password" name="" id="password" placeholder="Senha" class="form-control">
-                                    <input type="password" name="" id="confirm" placeholder="Confirmação" class="form-control">
-                                </div>
-
-                                <div class="identigroup">
-                                    <input type="text" name="" id="document" placeholder="CPF" class="form-control" value="">
-                                    <input type="text" name="" id="cep" placeholder="Cep" class="form-control" value="" 
-                                           data-ng-model="endereco.cep" pattern="\d{5}-\d{3}" data-ng-change="validaCep()">
-                                </div>
-
-                                <span class="streetgroupstreet">
-                                    <select name="" id="" class="form-control">
-                                        <option value="">R</option>
-                                        <option value="">Av</option>
-                                        <option value="">Al</option>
-                                    </select>
-                                    <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro" class="form-control" data-ng-model="endereco.logradouro">
-                                    <input type="text" name="numero" id="numero" placeholder="n°" class="form-control">
-                                    <input type="text" name="compl" id="compl" placeholder="Cmpl" class="form-control">
-                                    <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="form-control" data-ng-model="endereco.bairro">
-                                </span>
-                                <span class="citygroup">
-                                    <select name="state" id="state" placeholder="UF" class="form-control">
-                                        <option value="">UF</option>
-                                    </select>
-                                    <select name="city" id="city" placeholder="Cidade" class="form-control">
-                                        <option value="">Cidade</option>
-                                    </select>
-                                </span>
-
-                            </section>
-                            <footer>
-                                <div class="btn btn-success pull-right">Cadastrar e Comprar</div>
-                            </footer>
-                        </form>
+                        <%- partial( "client")-%>
                     </article>
                 </div>
             </main>
         </main>
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var app = angular.module('unico',[])
-        	.factory('socket', function(){
-        		var socket = io.connect('http://localhost');
-        		return socket;
-        	})
-        	.controller('MainCtrl', function($scope, $http, socket){
-                $scope.product = {};
-                $scope.loadState = 0;
-                
-                function processaProduto(p){
-                    var fst = false;
-                    p.images = _(p.images).map(function(i){
-                        return {
-                            id : _.uniqueId('i'),
-                            thumb : i.thumb,
-                            normal : i.normal,
-                            selected : (function(){
-                                if(!fst){
-                                    fst = true;
-                                    return true;
-                                }
-                                return false;
-                            })()
-                        }  
-                    });
-                    $scope.product = p;
-                }
-                
-        		socket.on('news', function (data) {
-        			$scope.total = data.total;
-                    if(data.product){
-                        processaProduto(data.product);    
-                        $scope.loadState = 1;
-                    }else{
-                        $scope.loadState = 3;
-                    }
-        			$scope.$apply();
-        		});
-                              
-                $scope.sideMenu = 'closed';
-                $scope.openMenu = function(){
-                    $scope.sideMenu = 'opened';
-                };
-                $scope.closeMenu = function(){
-                    $scope.sideMenu = 'closed';
-                };
-                
-                var steps = ['initial', 'payment', 'complete'];
-                $scope.paymentStep = 'initial';
-                
-                $scope.openPaymentMode = function(){
-                    $scope.paymentStep = steps[1];
-                };
-                $scope.closePaymentMode = function(){
-                    $scope.paymentStep = steps[0];
-                };
-                
-                $scope.openPaymentComplete = function(){
-                    $scope.paymentStep = steps[2];
-                };
-                $scope.closePaymentMode = function(){
-                    $scope.paymentStep = steps[0];
-                };
-                
-                var beforeMinimize = '';
-                $scope.minimize = function(){
-                    if($scope.paymentStep!=='min'){
-                        beforeMinimize = $scope.paymentStep;
-                        $scope.paymentStep = 'min';
-                    }else{
-                        $scope.paymentStep = beforeMinimize;
-                    }
-                };            
-                
-                    
-                var selectedPos = 0;
-                $scope.selectImage = function(d){
-                    selectedPos = 0;
-                    _($scope.product.images).each(function(i, n){
-                        if(i.selected) 
-                            i.selected = false;
-                        if(i.id === d.id){
-                            i.selected = true;
-                            selectedPos = n;
-                        }
-                        console.log(n)
-                    });
-                }
-                $scope.nextImage = function(){
-                    _($scope.product.images).each(function(i, n){
-                        i.selected = false;
-                    });
-                    selectedPos = (selectedPos+1);
-                    $scope.product.images[selectedPos%4].selected = true
-                }
-                $scope.beforeImage = function(){
-                    _($scope.product.images).each(function(i, n){
-                        i.selected = false;
-                    });
-                    selectedPos = selectedPos+3;
-                    $scope.product.images[(selectedPos)%4].selected = true
-                }
-                
-                $scope.validating = 1;
-                $scope.validateEmail = function(){
-                    if($scope.data.email.length!=0){
-                        $http.post('/validate/email', {email: $scope.data.email})
-                        .success(function(d){
-                            if(!d.success){
-                                $scope.validating=3;
-                                $scope.validateEmailStatus = d.message;
-                            }else{
-                                $scope.validating=2;
-                                $scope.validateEmailStatus = 'Válido';
-                            }
-                        })
-                        .error(function(d){
-                            $scope.validating=4;
-                            $scope.validateEmailStatus = d.error.message;
-                        });
-                    }else{
-                        $scope.validating=0;
-                        $scope.validateEmailStatus = 'Aguardando preenchimento';
-                    }
-                }
-                
-                $scope.endereco = {
-                    cep : ''
-                };
-                $scope.validaCep = function(){
-                    $http.post('/cep', {cep: $scope.endereco.cep})
-                    .success(function(d){
-                        //{“bairro”: “Santana”, “logradouro”: “Rua Volunt\u00e1rios da P\u00e1tria”, “cep”: “02011200″, “uf”: “SP”, “localidade”: “S\u00e3o Paulo”}
-                        $scope.endereco.logradouro = d.logradouro;
-                        $scope.endereco.bairro = d.bairro;                        
-                        $scope.endereco.uf = d.uf;
-                        $scope.endereco.cidade = d.localidade;                        
-                    })
-                    .error(function(d){
-                        
-                    });
-                }
-        	});
-    </script>

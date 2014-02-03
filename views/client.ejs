@@ -1,0 +1,49 @@
+<form action="" class="form-vertical">
+    <section>
+        <div class="emailgroup">
+            <input type="email" name="" id="" placeholder="Email" class="form-control">
+            <div class="result">
+                <span class="fa fa-ellipsis-h" data-ng-hide="validating!==0"></span>
+                <div class="spinner mini" data-ng-hide="validating!==1">
+                </div>
+                <span class="fa fa-check" data-ng-hide="validating!==2"></span>
+                <span class="fa fa-thumbs-down" data-ng-hide="validating!==3"></span>
+                <span class="fa fa-chain-broken" data-ng-hide="validating!==4"></span>
+            </div>
+        </div>
+        <input type="text" name="" id="" placeholder="Nome Completo" class="form-control">
+        <div class="passgroup">
+            <input type="password" name="" id="password" placeholder="Senha" class="form-control">
+            <input type="password" name="" id="confirm" placeholder="Confirmação" class="form-control">
+        </div>
+
+        <div class="identigroup">
+            <input type="text" name="" id="document" placeholder="CPF" class="form-control" value="">
+            <input type="text" name="" id="cep" placeholder="Cep" class="form-control" value="" data-ng-model="endereco.cep" pattern="\d{5}-\d{3}" data-ng-change="validaCep()">
+        </div>
+
+        <span class="streetgroupstreet">
+            <select name="" id="" class="form-control">
+                <option value="">R</option>
+                <option value="">Av</option>
+                <option value="">Al</option>
+            </select>
+            <input type="text" name="logradouro" id="logradouro" placeholder="Logradouro" class="form-control" data-ng-model="endereco.logradouro">
+            <input type="text" name="numero" id="numero" placeholder="n°" class="form-control">
+            <input type="text" name="compl" id="compl" placeholder="Cmpl" class="form-control">
+            <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="form-control" data-ng-model="endereco.bairro">
+        </span>
+        <span class="citygroup">
+            <select name="state" id="state" placeholder="UF" class="form-control">
+                <option value="">UF</option>
+            </select>
+            <select name="city" id="city" placeholder="Cidade" class="form-control">
+                <option value="">Cidade</option>
+            </select>
+        </span>
+
+    </section>
+    <footer>
+        <div class="btn btn-success pull-right">Cadastrar e Comprar</div>
+    </footer>
+</form>

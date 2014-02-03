@@ -1,0 +1,36 @@
+<header>
+    <h1>
+        {{product.name}}
+        <a href="javascript:" class="pull-right" title="minimizar" data-ng-click="minimize()">
+            <span class="fa fa-minus" data-ng-show="paymentStep!=='min'"></span>
+            <span class="fa fa-plus" data-ng-show="paymentStep==='min'"></span>
+        </a>
+    </h1>
+    <h2>{{product.model}}</h2>
+    <small class="pull-right">por
+        <a data-ng-click="openMenu()" title="artista" href="javascript:void(0);">{{product.author}}</a>
+    </small>
+</header>
+<nav class="slider-control">
+    <span class="slider-left" data-ng-click="beforeImage()">
+        <span class="fa fa-chevron-left"></span>
+    </span>
+    <figure data-ng-repeat="image in product.images" data-ng-class="{selected:image.selected}" data-ng-click="selectImage(image)">
+        <img data-ng-src="{{image.thumb}}" alt="">
+    </figure>
+    <span class="slider-left" data-ng-click="nextImage()">
+        <span class="fa fa-chevron-right"></span>
+    </span>
+</nav>
+<section>
+    <p>{{product.description}}</p>
+</section>
+<footer>
+    <form action="javascript:void(0);" data-ng-submit="openPaymentMode()">
+        <strong class="pull-left">{{product.price|currency:"R$"}}</strong>
+        <button class="btn btn-primary pull-right" type="submit">
+            <span class="fa fa-shopping-cart"></span>
+            Comprar
+        </button>
+    </form>
+</footer>
